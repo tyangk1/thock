@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>THOCK 75 — Type Anything</title>
+  <meta name="description" content="THOCK 75: a 75% mechanical keyboard you can play with. Type, drop keycaps, X-ray the layers, blind-test the switches, build your own.">
+  <meta name="theme-color" content="#F4EFE6">
+  <meta property="og:title" content="THOCK 75 — Type Anything">
+  <meta property="og:description" content="The keyboard landing page you can actually type on.">
+  <meta property="og:image" content="https://thock.yan.io.vn/assets/og.jpg">
+  <meta property="og:url" content="https://thock.yan.io.vn/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/icon-32.png">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/thock.css">
+  <script type="importmap">
+  { "imports": { "gsap": "./vendor/gsap/index.js", "gsap/ScrollTrigger": "./vendor/gsap/ScrollTrigger.js", "lenis": "./vendor/lenis/lenis.js" } }
+  </script>
+  <script src="vendor/matter/matter.min.js" defer></script>
+</head>
+<body class="is-loading" data-theme="bone">
+
+  <!-- LOADER: T-H-O-C-K types itself -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__keys">
+      <span class="kc" data-l="T">T</span><span class="kc" data-l="H">H</span><span class="kc" data-l="O">O</span><span class="kc" data-l="C">C</span><span class="kc" data-l="K">K</span>
+    </div>
+    <p class="loader__hint mono">loading switches… <span id="loadPct">0</span>%</p>
+  </div>
+
+  <header class="hdr">
+    <a class="logo" href="#type" aria-label="THOCK home"><img src="assets/brand/wordmark-small.png" alt="THOCK" width="360" height="98"></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#type"><kbd>1</kbd>Type</a>
+      <a href="#xray"><kbd>2</kbd>X-ray</a>
+      <a href="#switches"><kbd>3</kbd>Switches</a>
+      <a href="#colors"><kbd>4</kbd>Colors</a>
+      <a href="#race"><kbd>5</kbd>Race</a>
+      <a href="#build"><kbd>6</kbd>Build</a>
+    </nav>
+    <div class="hdr__right">
+      <button class="chip" id="soundBtn" aria-pressed="false" title="Sound (M)">🔇 Sound off</button>
+      <button class="chip chip--box" id="boxBtn" aria-label="Open your box">Box <b id="boxCount">0</b></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. TYPE ANYTHING -->
+    <section class="hero" id="type" aria-label="Type anything">
+      <canvas id="physics" aria-hidden="true"></canvas>
+      <div class="hero__top">
+        <span class="sticker sticker--yellow rot-l">New · THOCK 75</span>
+        <span class="sticker sticker--blue rot-r mono">Just start typing ⌨</span>
+      </div>
+      <h1 class="hero__type" aria-live="polite"><span id="typed">TYPE ANYTHING.</span><i class="caret"></i></h1>
+      <p class="hero__sub">A 75% gasket-mount board that sounds like rain on a wooden roof. <b>Every key you press drops on the page.</b> Grab them. Throw them.</p>
+      <div class="kb-wrap">
+        <div class="kb" id="kb" aria-label="On-screen keyboard"></div>
+      </div>
+      <div class="hero__cta">
+        <a class="btn btn--orange" href="#build">Build yours — from $149</a>
+        <button class="btn btn--ghost" id="clearCaps">Clear the pile</button>
+      </div>
+    </section>
+
+    <div class="tape" aria-hidden="true"><div class="tape__track"><span>THOCK THOCK THOCK ✦ GASKET MOUNT ✦ HOT-SWAP ✦ PBT ✦ 75% ✦ QMK/VIA ✦ </span><span>THOCK THOCK THOCK ✦ GASKET MOUNT ✦ HOT-SWAP ✦ PBT ✦ 75% ✦ QMK/VIA ✦ </span></div></div>
+
+    <!-- 2. X-RAY -->
+    <section class="xray" id="xray" aria-label="X-ray of the layers">
+      <div class="xray__pin">
+        <div class="xray__head">
+          <p class="label mono">02 / X-ray</p>
+          <h2>Six layers.<br><mark>Zero</mark> rattle.</h2>
+          <p>Scroll to scan the THOCK 75 from keycap to case.</p>
+        </div>
+        <div class="xray__frame card">
+          <div class="xray__img">
+            <img data-src="kb-exploded-ht" class="xray__ht" alt="">
+            <img data-src="kb-exploded" class="xray__color" id="xrayColor" alt="Exploded view of the THOCK 75: keycaps, switches, plate, PCB, foam and case">
+            <div class="xray__line" id="xrayLine"><span class="mono" id="xrayPct">0%</span></div>
+          </div>
+          <ul class="xray__tags" id="xrayTags">
+            <li data-y=".10" class="sticker sticker--yellow">PBT keycaps · dye-sub</li>
+            <li data-y=".22" class="sticker sticker--orange">Hot-swap switches</li>
+            <li data-y=".40" class="sticker sticker--blue">Alu plate · flex cuts</li>
+            <li data-y=".52" class="sticker sticker--mint">PCB · QMK / VIA</li>
+            <li data-y=".63" class="sticker sticker--paper">Poron foam</li>
+            <li data-y=".80" class="sticker sticker--yellow">CNC aluminum case</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SWITCHES + BLIND TEST -->
+    <section class="switches" id="switches" aria-label="Switches">
+      <div class="sec-head">
+        <p class="label mono">03 / Switch lab</p>
+        <h2>Pick your <mark class="m-orange">sound</mark>.</h2>
+      </div>
+      <div class="sw-grid">
+        <article class="sw card" data-sw="linear">
+          <img data-src="sw-linear" alt="Linear switch with red stem">
+          <div class="sw__body">
+            <h3>Linear</h3><p class="mono">45 gf · 4.0 mm · smooth</p>
+            <svg class="curve" viewBox="0 0 200 90" aria-hidden="true"><path d="M10 80 L190 20"/></svg>
+            <button class="btn btn--small" data-play="linear">▶ Thock it</button>
+          </div>
+        </article>
+        <article class="sw card" data-sw="tactile">
+          <img data-src="sw-tactile" alt="Tactile switch with brown stem">
+          <div class="sw__body">
+            <h3>Tactile</h3><p class="mono">55 gf · 4.0 mm · bump</p>
+            <svg class="curve" viewBox="0 0 200 90" aria-hidden="true"><path d="M10 80 L70 40 L95 26 L110 52 L190 18"/></svg>
+            <button class="btn btn--small" data-play="tactile">▶ Thock it</button>
+          </div>
+        </article>
+        <article class="sw card" data-sw="clicky">
+          <img data-src="sw-clicky" alt="Clicky switch with blue stem">
+          <div class="sw__body">
+            <h3>Clicky</h3><p class="mono">60 gf · 4.0 mm · click</p>
+            <svg class="curve" viewBox="0 0 200 90" aria-hidden="true"><path d="M10 80 L80 34 L92 22 L100 60 L190 16"/></svg>
+            <button class="btn btn--small" data-play="clicky">▶ Thock it</button>
+          </div>
+        </article>
+      </div>
+      <div class="blind card card--yellow" id="blind">
+        <div class="blind__left">
+          <p class="label mono">Blind test · 3 rounds</p>
+          <h3 id="blindQ">Can you hear the difference?</h3>
+          <p id="blindMsg">Hit play, listen, then guess which switch it was.</p>
+        </div>
+        <div class="blind__right">
+          <button class="btn btn--black" id="blindPlay">▶ Play mystery switch</button>
+          <div class="blind__opts">
+            <button class="btn btn--small" data-guess="linear">Linear</button>
+            <button class="btn btn--small" data-guess="tactile">Tactile</button>
+            <button class="btn btn--small" data-guess="clicky">Clicky</button>
+          </div>
+          <p class="mono blind__score" id="blindScore">Round 1/3</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. COLORWAYS -->
+    <section class="colors" id="colors" aria-label="Colorways">
+      <div class="colors__stage" id="colorStage">
+        <div class="colors__copy">
+          <p class="label mono">04 / Colorways</p>
+          <h2 id="cwName">Bone.</h2>
+          <p id="cwLine">Warm cream, orange accents. The one that started it.</p>
+          <div class="cw-btns" role="radiogroup" aria-label="Colorway">
+            <button class="cw is-on" role="radio" aria-checked="true" data-cw="bone">Bone</button>
+            <button class="cw" role="radio" aria-checked="false" data-cw="ink">Ink</button>
+            <button class="cw" role="radio" aria-checked="false" data-cw="pop">Pop</button>
+          </div>
+        </div>
+        <div class="colors__kb">
+          <img id="cwImg" data-src="kb-bone-top" alt="THOCK 75 in Bone">
+        </div>
+        <div class="slam" id="slam" aria-hidden="true"><span id="slamWord">BONE</span></div>
+      </div>
+    </section>
+
+    <!-- 5. UP CLOSE (riso) -->
+    <section class="riso" aria-label="Up close">
+      <div class="sec-head">
+        <p class="label mono">Up close</p>
+        <h2>Printed in <mark class="m-blue">ink</mark>. Hover to develop.</h2>
+      </div>
+      <div class="riso__grid">
+        <figure class="ph card ph--wide" tabindex="0"><img data-src="life-desk-ht" class="ph__ht" alt=""><img data-src="life-desk" class="ph__c" alt="THOCK 75 on a colorful desk"><figcaption class="sticker sticker--yellow">Desk candy</figcaption></figure>
+        <figure class="ph card" tabindex="0"><img data-src="macro-keycap-ht" class="ph__ht" alt=""><img data-src="macro-keycap" class="ph__c" alt="Macro of PBT keycaps"><figcaption class="sticker sticker--orange">PBT, 1.5 mm</figcaption></figure>
+        <figure class="ph card" tabindex="0"><img data-src="macro-pcb-ht" class="ph__ht" alt=""><img data-src="macro-pcb" class="ph__c" alt="Macro of the hot-swap PCB"><figcaption class="sticker sticker--mint">Hot-swap PCB</figcaption></figure>
+        <figure class="ph card" tabindex="0"><img data-src="life-hands-ht" class="ph__ht" alt=""><img data-src="life-hands" class="ph__c" alt="Hands typing on THOCK 75"><figcaption class="sticker sticker--blue">Typing feel</figcaption></figure>
+        <figure class="ph card ph--wide" tabindex="0"><img data-src="life-night-ht" class="ph__ht" alt=""><img data-src="life-night" class="ph__c" alt="THOCK 75 at night under a desk lamp"><figcaption class="sticker sticker--paper">After hours</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- 6. RACE -->
+    <section class="race" id="race" aria-label="Typing race">
+      <div class="sec-head">
+        <p class="label mono">05 / Race the ghost</p>
+        <h2>How fast are <mark>you</mark>?</h2>
+      </div>
+      <div class="race__box card">
+        <div class="race__text mono" id="raceText" aria-label="Text to type"></div>
+        <div class="race__bar"><i id="raceGhost" class="race__ghost" title="Ghost (60 WPM)"></i><i id="raceYou" class="race__you" title="You"></i></div>
+        <div class="race__meta">
+          <svg class="gauge" viewBox="0 0 200 120" aria-hidden="true">
+            <path class="gauge__bg" d="M20 110 A80 80 0 0 1 180 110"/>
+            <path class="gauge__fg" id="gaugeArc" d="M20 110 A80 80 0 0 1 180 110"/>
+            <line id="needle" x1="100" y1="110" x2="100" y2="40"/>
+          </svg>
+          <div class="race__nums"><b id="wpm">0</b><span class="mono">WPM</span><b id="acc">100%</b><span class="mono">accuracy</span></div>
+          <div class="race__btns">
+            <button class="btn btn--orange" id="raceStart">Start race (Enter)</button>
+            <button class="btn btn--ghost" id="posterBtn" hidden>Download my poster</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. BUILD -->
+    <section class="build" id="build" aria-label="Build yours">
+      <div class="sec-head">
+        <p class="label mono">06 / Build yours</p>
+        <h2>Make it <mark class="m-mint">yours</mark>.</h2>
+      </div>
+      <div class="build__grid">
+        <div class="build__preview card" id="buildPreview">
+          <img id="buildImg" data-src="kb-bone-top" alt="Your THOCK 75 build">
+          <span class="sticker sticker--yellow build__price" id="buildPrice">$149</span>
+        </div>
+        <form class="build__opts" id="buildForm">
+          <fieldset><legend class="mono">Case</legend>
+            <label><input type="radio" name="case" value="bone" checked><span>Bone</span></label>
+            <label><input type="radio" name="case" value="ink"><span>Ink</span></label>
+            <label><input type="radio" name="case" value="pop"><span>Pop</span></label>
+          </fieldset>
+          <fieldset><legend class="mono">Switch</legend>
+            <label><input type="radio" name="sw" value="linear" checked><span>Linear</span></label>
+            <label><input type="radio" name="sw" value="tactile"><span>Tactile <small>+$5</small></span></label>
+            <label><input type="radio" name="sw" value="clicky"><span>Clicky <small>+$5</small></span></label>
+          </fieldset>
+          <fieldset><legend class="mono">Extras</legend>
+            <label><input type="checkbox" name="knob" checked><span>Brass knob</span></label>
+            <label><input type="checkbox" name="artisan"><span>Artisan Esc <small>+$15</small></span></label>
+            <label><input type="checkbox" name="cable"><span>Coiled cable <small>+$19</small></span></label>
+          </fieldset>
+          <button class="btn btn--orange btn--big" type="submit">Drop it in the box</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ftr">
+    <div class="ftr__big" id="ftrBig" aria-label="THOCK"><button class="kc kc--xl">T</button><button class="kc kc--xl">H</button><button class="kc kc--xl">O</button><button class="kc kc--xl">C</button><button class="kc kc--xl">K</button></div>
+    <img class="ftr__logo" src="assets/brand/wordmark-light.png" alt="THOCK" width="900" height="245" loading="lazy">
+    <p>The THOCK 75 is in development. Pre-orders open soon — nothing is sold or charged yet. Product images are AI-generated renders, edited in PhotoCraft.</p>
+    <p class="mono">Keys: 1–6 jump · Space next section · Enter starts the race · Esc closes</p>
+  </footer>
+
+  <aside class="drawer" id="drawer" hidden aria-label="Your box">
+    <div class="drawer__scrim" data-close></div>
+    <div class="drawer__panel card">
+      <header><h3>Your box</h3><button class="btn btn--small" data-close aria-label="Close">✕</button></header>
+      <ul id="boxList"></ul>
+      <p id="boxEmpty" class="mono">Empty box. Build something.</p>
+      <footer><div class="drawer__total"><span>Total</span><b id="boxTotal">$0</b></div><button class="btn btn--black btn--block" id="checkout">Pre-order — opening soon</button><p class="mono small">Pre-orders aren't open yet. Nothing is charged; your box is saved on this device.</p></footer>
+    </div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

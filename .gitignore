@@ -1,0 +1,9 @@
+node_modules/
+frames/
+out/
+audio/
+*.ecproj
+inbox/
+work/
+.deploy/
+lab/
