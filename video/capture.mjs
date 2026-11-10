@@ -220,8 +220,8 @@ await overlay(v, '');
       const a = ease.out(Math.min(1, (f - endAt) / 6));
       html = `<div class="end" style="--gap:${R ? 22 : 30}px;--lw:${R ? 340 : 760}px;transform:translateY(${(1 - a) * -100}%)">
         <img src="/assets/brand/wordmark.png" alt="">
-        <div class="pill" style="--ps:${R ? 20 : 34}px">thock-demo.vercel.app</div>
-        <div class="small" style="--ss:${R ? 13 : 20}px">TYPE ANYTHING · concept keyboard, not a real product</div></div>`;
+        <div class="pill" style="--ps:${R ? 20 : 34}px">thock.yan.io.vn</div>
+        <div class="small" style="--ss:${R ? 13 : 20}px">TYPE ANYTHING · pre-orders opening soon</div></div>`;
     }
     await overlay(v, html);
   });
