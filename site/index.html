@@ -22,6 +22,18 @@
   { "imports": { "gsap": "./vendor/gsap/index.js", "gsap/ScrollTrigger": "./vendor/gsap/ScrollTrigger.js", "lenis": "./vendor/lenis/lenis.js" } }
   </script>
   <script src="vendor/matter/matter.min.js" defer></script>
+  <!-- stats: self-hosted Umami, no cookies; counts only on the live domain -->
+  <script defer src="https://stats.yan.io.vn/script.js" data-website-id="0f517de4-4d67-4d78-a07e-2b4804ae61d0" data-domains="thock.yan.io.vn"></script>
+  <script>
+    /* how far people scroll: one event per mark per page view */
+    (function () {
+      var marks = [25, 50, 75, 100], hit = {};
+      addEventListener('scroll', function () {
+        var d = document.documentElement, p = (d.scrollTop + innerHeight) / d.scrollHeight * 100;
+        marks.forEach(function (m) { if (p >= m - 1 && !hit[m] && window.umami) { hit[m] = 1; umami.track('scroll-' + m); } });
+      }, { passive: true });
+    })();
+  </script>
 </head>
 <body class="is-loading" data-theme="bone">
 
